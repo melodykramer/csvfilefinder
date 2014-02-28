@@ -2,32 +2,39 @@ import csv
 import sys
 
 
+#opens up a spreadsheet of every NPR employee
+#puts info about them into dictionary
+
 with open('npremployees.csv', "rU") as npr_employees:
 	employees = csv.DictReader(npr_employees)
 	dict = employees
 
 	for individual in employees:
 		values = individual.values()
-		print values
-		
+
+#prints out their phone extensions which is [5] in a spreadsheet
+
+		extension = values[5]
+		#print extension
+
+#opens up a spreadsheet of every NPR employee who took a survey
+#puts info about them into dictionary		
 
 with open('social22814.csv', "rU") as employee_social_survey:
   	survey = csv.DictReader(employee_social_survey)
 	dict = survey
 
+#converts items in dictionary to list
+
  	for employee in survey:
 		values = employee.values()
-		#print values
+	
+#prints their phone extension, which is [11] in a spreadsheet
 
-	#for employee in survey:
-		text = values[4]
+		text = values[11]
 		print text
 
-	#if employee.values() == individual.values():
-	#	print "Hooray!"
-	#else:
-	#	print "Back to the drawing board Kramer!"
-
+#checks to see if phone extension is in both lists. if so, print out employee spreadsheet and adds social handles from list two
 
 
 
@@ -37,5 +44,6 @@ with open('social22814.csv', "rU") as employee_social_survey:
 #employees_plus_survey = file('results.csv', 'w')
 
 #master_document = csv.writer(employees_plus_survey)
+
 
 
