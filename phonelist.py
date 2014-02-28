@@ -9,6 +9,8 @@ with open('npremployees.csv', "rU") as npr_employees:
 	employees = csv.DictReader(npr_employees)
 	dict = employees
 
+#makes the dictionary a list
+ 
 	for individual in employees:
 		values = individual.values()
 
