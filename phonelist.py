@@ -18,6 +18,7 @@ with open('social22814.csv', "rU") as employee_social_survey:
 		
 #Here's where I'm screwing up. I want to say "If the string in row 12 of the second table equals the string in row 18 of the first 
 #table, then print yay. I know I'm counting correctly (I started counting at 0.) What am I doing wrong?
+#the error I'm getting is: AttributeError: DictReader instance has no attribute '__getitem__'
 	
 	#	if employees[12] == person[18]:
 	#		print "yay"
