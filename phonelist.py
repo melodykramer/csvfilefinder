@@ -1,56 +1,33 @@
 import csv
-import sys
 
 
-#opens up a spreadsheet of every NPR employee
-#puts info about them into dictionary
+#opens spreadsheet of every NPR employee
 
 with open('npremployees.csv', "rU") as npr_employees:
-	employees = csv.DictReader(npr_employees)
-	dict = employees
 
-	for individual in employees:
-		values = individual.values()
+#puts all of their information into a dictionary
 
-#prints out their phone extensions which is [5] in a spreadsheet
+       employees = csv.DictReader(npr_employees)
 
-		extension = values[5]
-		print extension
+       all_employees = {}
 
-#opens up a spreadsheet of every NPR employee who took a survey
-#puts info about them into dictionary		
 
-with open('social22814.csv', "rU") as employee_social_survey:
-  	survey = csv.DictReader(employee_social_survey)
-	dict = survey
+#loops through all of the employees and assigns them the value of their extension
 
-#converts items in dictionary to list
+       for employee in employees:
 
- 	for employee in survey:
-		values = employee.values()
-	
-#prints their phone extension, which is [11] in a spreadsheet
-
-		text = values[11]
-
-#I was hoping that this would compare the results from employees to the results from survey
-#but this is not the case.
-
-		if text == extension:
-			print "Yay!"
-		else:
-			print "nope!"
-
-#checks to see if phone extension is in both lists. if so, print out employee spreadsheet and adds social handles from list two
+               all_employees[employee['Extension']] = employee
 
 
 
+with open('social22814.csv', "rU") as social_employees:
 
+       social_employee = csv.DictReader(social_employees) 
 
+       for row in social_employee:
 
-#employees_plus_survey = file('results.csv', 'w')
+               print all_employees.get(row['Extension'], None)
 
-#master_document = csv.writer(employees_plus_survey)
+       for employee_new in employees:
 
-
-
+   	 	all_employees[employee_new['Extension']]['Instagram'] = employee_new
