@@ -1,45 +1,53 @@
 import csv
 
+# Store all the info about the employees
+all_employees = {}
+output_headers = []
 
-#opens spreadsheet of every NPR employee
+# First, get all employee record info
 
-with open('npremployees.csv', "rU") as npr_employees:
+with open('npremployees031414.csv', 'rU') as npr_employees:
 
-#puts all of their information into a dictionary
+    employees = csv.DictReader(npr_employees)
 
-       employees = csv.DictReader(npr_employees)
+    for employee in employees:
 
-       all_employees = {}
+        ext = employee['Email']
+        all_employees[ext] = employee
 
-       total_employees = {}
+    # Add headers from "all employees"
 
+    output_headers.extend(employees.fieldnames)
 
-#loops through all of the employees and assigns them a unique value of their extension
+# Then, get all info from social, and update employee info
 
-       for employee in employees:
-
-               all_employees[employee['Extension']] = employee
-
-
-#opens up spreadsheet of NPR employees who filled out a survey
-
-with open('social22814.csv', "rU") as social_employees:
-
-#puts all of their information into a dictionary
-
-       social_employee = csv.DictReader(social_employees) 
+with open('testmel.csv', 'rU') as social_employees:
 
 
-#if the employee appears in the master list, print out their information. 
-#This lets us know which employees should have information added to the master list entry.
+    social_employees = csv.DictReader(social_employees) 
+    
+    for social_employee in social_employees:
+        ext = social_employee['Email']
 
-       for row in social_employee:
+        # Combine the two dictionaries.
+        all_employees[ext] = dict(
+                all_employees[ext].items() + social_employee.items()
+        )
 
-          # total_employees[row['Extension']]['Instagram'] = row
+    # Add headers from "social employees", but don't add duplicate fields
+    output_headers.extend(
+            [field for field in social_employees.fieldnames
+            if field not in output_headers]
+    )
 
-             #  print total_employees.get(row['Extension'], None)
-            	
+# Finally, output the records ordered by extension
+with open('output031414l.csv', 'wb') as f:
+    writer = csv.writer(f)
+    writer.writerow(output_headers)
 
-               print all_employees.get(row['Extension'], None)
-
-
+    # Write the new employee rows.  If a field doesn't exist, 
+    # write an empty string.
+    for employee in sorted(all_employees.values()):
+        writer.writerow(
+                [employee.get(field, '') for field in output_headers]
+        )
